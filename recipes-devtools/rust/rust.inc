@@ -229,6 +229,14 @@ TARGET_POINTER_WIDTH[powerpc] = "32"
 TARGET_C_INT_WIDTH[powerpc] = "32"
 MAX_ATOMIC_WIDTH[powerpc] = "32"
 
+## riscv32-unknown-linux-{gnu, musl}
+DATA_LAYOUT[riscv32] = "e-m:e-p:64:64-i64:64-i128:128-n64-S128"
+LLVM_TARGET[riscv32] = "${RUST_TARGET_SYS}"
+TARGET_ENDIAN[riscv32] = "little"
+TARGET_POINTER_WIDTH[riscv32] = "32"
+TARGET_C_INT_WIDTH[riscv32] = "32"
+MAX_ATOMIC_WIDTH[riscv32] = "32"
+
 ## riscv64-unknown-linux-{gnu, musl}
 DATA_LAYOUT[riscv64] = "e-m:e-p:64:64-i64:64-i128:128-n64-S128"
 LLVM_TARGET[riscv64] = "${RUST_TARGET_SYS}"
@@ -380,6 +388,7 @@ do_rust_setup_snapshot[dirs] += "${WORKDIR}/rust-snapshot"
 
 python do_configure() {
     import json
+    from distutils.version import LooseVersion
     try:
         import configparser
     except ImportError:
@@ -418,9 +427,8 @@ python do_configure() {
     config.set("rust", "rpath", e(True))
     config.set("rust", "channel", e("stable"))
 
-    # Don't use jemalloc as it doesn't work for many targets.
-    # https://github.com/rust-lang/rust/pull/37392
-    config.set("rust", "use-jemalloc", e(False))
+    if LooseVersion(d.getVar("PV")) < LooseVersion("1.32.0"):
+        config.set("rust", "use-jemalloc", e(False))
 
     # Whether or not to optimize the compiler and standard library
     config.set("rust", "optimize", e(True))
