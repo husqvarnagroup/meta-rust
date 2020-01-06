@@ -14,10 +14,10 @@ Upstream-Status: Inappropriate
  src/tools/cargo/Cargo.toml | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/src/tools/cargo/Cargo.toml b/src/tools/cargo/Cargo.toml
+diff --git a/Cargo.toml b/Cargo.toml
 index eaf32b4..8b8f4b0 100644
---- a/src/tools/cargo/Cargo.toml
-+++ b/src/tools/cargo/Cargo.toml
+--- a/Cargo.toml
++++ b/Cargo.toml
 @@ -24,7 +24,7 @@ bytesize = "1.0"
  crates-io = { path = "crates/crates-io", version = "0.28" }
  crossbeam-utils = "0.6"
